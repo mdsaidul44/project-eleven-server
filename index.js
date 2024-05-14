@@ -65,6 +65,33 @@ async function run() {
 
     })
 
+    app.get('/orderupdate/:id',async(req,res)=>{
+      const id =req.params.id;
+      const query = {_id : new ObjectId(id)}
+      const result = await orderCollection.findOne(query)
+      res.send(result)
+    })
+
+    app.put('/orderupdate/:id',async(req,res)=>{
+      const id =req.params.id;
+      const filter = {_id: new ObjectId(id)}
+      const option = {upsert : true}
+      const orderUpdate = req.body;
+      const order ={
+        $set:{
+          foodName: orderUpdate.foodName,
+          img : orderUpdate.img,
+          price: orderUpdate.price,
+          buyerName: orderUpdate.buyerName,
+          email: orderUpdate.email,
+          quantity: orderUpdate.quantity,
+          date: orderUpdate.date
+        }
+      } 
+      const result = await orderCollection.updateOne(filter,order,option)
+      res.send(result)
+    })
+
      
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
