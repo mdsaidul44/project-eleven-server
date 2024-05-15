@@ -29,7 +29,9 @@ async function run() {
 
     const foodCollection = client.db('restaurantFood').collection('food');
     const orderCollection = client.db('restaurantFood').collection('Order')
+    const anotherCollection = client.db('restaurantFood').collection('another')
     
+    // food collection functionality
     app.get('/food',async(req,res)=>{
         const cursor = foodCollection.find();
         const result = await cursor.toArray()
@@ -43,6 +45,8 @@ async function run() {
       res.send(result)
     })
 
+
+    // order collection functionality
     app.post('/order',async(req,res)=>{
       const order = req.body;
       console.log(order)
@@ -96,6 +100,14 @@ async function run() {
       const id = req.params.id;
       const query = {_id: new ObjectId(id)}
       const result = await orderCollection.deleteOne(query)
+      res.send(result)
+    })
+    
+
+    // another collection functionality
+    app.post('/another',async(req,res)=> {
+      const items = req.body;
+      const result = await anotherCollection.insertOne(items)
       res.send(result)
     })
 
