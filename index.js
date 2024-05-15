@@ -55,7 +55,7 @@ async function run() {
       const result =await cursor.toArray()
       res.send(result)
 
-    })
+    }) 
 
     app.get('/order/:email',async(req,res)=>{
       const email = req.params.email; 
@@ -89,6 +89,13 @@ async function run() {
         }
       } 
       const result = await orderCollection.updateOne(filter,order,option)
+      res.send(result)
+    })
+
+    app.delete('/order/:id',async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await orderCollection.deleteOne(query)
       res.send(result)
     })
 
