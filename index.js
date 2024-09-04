@@ -1,13 +1,19 @@
-const express =require('express')
-const cors = require('cors')
 require('dotenv').config()
+const express =require('express')
+const cors = require('cors') 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 const app = express() 
 const port = process.env.PORT || 5000;
 
 // middleware
-app.use(cors())
+app.use(cors({
+  origin:[
+    "http://localhost:5173",
+    "https://assignment-eleven-3f067.web.app",
+    "https://assignment-eleven-3f067.firebaseapp.com"
+  ]
+}))
 app.use(express.json())
  
 
@@ -30,6 +36,9 @@ async function run() {
     const foodCollection = client.db('restaurantFood').collection('food');
     const orderCollection = client.db('restaurantFood').collection('Order')
     const anotherCollection = client.db('restaurantFood').collection('another')
+
+
+ 
     
     // food collection functionality
     app.get('/food',async(req,res)=>{
