@@ -7,13 +7,7 @@ const app = express()
 const port = process.env.PORT || 5000;
 
 // middleware
-app.use(cors({
-  origin:[
-    "http://localhost:5173",
-    "https://assignment-eleven-3f067.web.app",
-    "https://assignment-eleven-3f067.firebaseapp.com"
-  ]
-}))
+app.use(cors())
 app.use(express.json())
  
 
