@@ -39,7 +39,25 @@ async function run() {
         const cursor = foodCollection.find();
         const result = await cursor.toArray()
         res.send(result)
-    })
+    }) 
+
+    app.get('/foodCount', async (req, res) => {
+      const { page = 1, limit = 5 } = req.query; // Default values
+      const skip = (page - 1) * limit; // Calculate how many items to skip
+  
+      const cursor = foodCollection.find(); // Get the cursor for all products
+      const result = await cursor.skip(skip).limit(parseInt(limit)).toArray(); // Apply pagination
+  
+      const totalItems = await foodCollection.countDocuments(); // Total documents count
+      const totalPages = Math.ceil(totalItems / limit); // Calculate total pages
+  
+      res.send({
+          data: result,
+          totalItems,
+          totalPages,
+          currentPage: parseInt(page),
+      });
+  }); 
 
     app.get('/food/:id',async(req,res)=>{
       const id = req.params.id;
